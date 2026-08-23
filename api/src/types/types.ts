@@ -66,9 +66,14 @@ export interface ChartResult {
     indicators: Indicators;
 }
 
+export interface ChartError {
+    code: string;
+    description: string;
+}
+
 export interface ChartData {
     result: ChartResult[];
-    error: string | null;
+    error: ChartError;
 }
 
 export interface StockData {
@@ -125,7 +130,7 @@ export interface MetaData {
     range: string;
 }
 
-export interface MontlyStockData {
+export interface MonthlyStockData {
     currentData: CurrentTradingPeriod;
     metaData: MetaData;
     dailyData: DailyData[];

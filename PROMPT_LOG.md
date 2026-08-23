@@ -191,3 +191,8 @@ And the dayOpen.. need to over the candls of that day, not all the candles.
 I wanted to see how to optomize the double loop because the inner loop would iterate through all of the timestamps for each period.
 
 I found that a two pointer solution is the most efficient. A prepartition is also the same complexity.
+
+9. How can I refactor for allowing custom error codes instead of only returning 500 in the error handler?
+
+I want to make so if there is an error, the front end can differentiate errors instead of always being 500.
+I learned we can extend the Error class to add a status field.
