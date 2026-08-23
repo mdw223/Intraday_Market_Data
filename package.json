@@ -1,0 +1,10 @@
+{
+  "name": "intraday_market_data",
+  "version": "1.0.0",
+  "description": "Full-stack app that displays intraday market data from a public stock API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  }
+}

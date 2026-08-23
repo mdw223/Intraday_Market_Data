@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intraday Market Data</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; }
+      form { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+      input, button { padding: 0.5rem; }
+      table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+      th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: right; }
+      th:first-child, td:first-child { text-align: left; }
+      #status { margin-top: 0.5rem; }
+    </style>
+  </head>
+  <body>
+    <h1>Intraday Market Data</h1>
+    <form id="symbol-form">
+      <label for="symbol">Ticker</label>
+      <input id="symbol" name="symbol" value="AAPL" maxlength="10" required />
+      <button type="submit">Load Data</button>
+    </form>
+    <div id="status"></div>
+    <table id="data-table" hidden>
+      <thead>
+        <tr>
+          <th>Time (UTC)</th>
+          <th>Open</th>
+          <th>High</th>
+          <th>Low</th>
+          <th>Close</th>
+          <th>Volume</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
