@@ -44,3 +44,9 @@ I added the data into stock-data.json to format it and examine it.
 3. can you make a data interface for @Intraday_Market_Data/data/stock-data.json  in @Intraday_Market_Data/api/src/types/types.ts  ensuring that it has the correct data types
 
 I wanted to convert this data I got into a data interface so that I can ensure that I know what data I can get and not run into accidental errors.
+
+3. How can we validate the symbol so it is a string and it is a known symbol because I don't want to hit limits when calling yahoo's api if users miss type a symbol. Maybe there is a library that has all of the known symbols.
+
+I wanted to know what is the best way to handle validating the symbol a user inputs to make sure that it's an actual name of a stock to avoid hitting limits, as well as validating that it is a string and not a wrong data type for example.
+
+I learned that stock symbols have a certain format that can be represented in REGEX format, thus making it easier and more efficient that querying a database of known symbols.

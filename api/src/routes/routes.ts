@@ -2,6 +2,7 @@ import express from "express";
 import { getStocks } from "../controllers/controller";
 const router = express.Router();
 
-router.get("/stocks", getStocks);
+
+router.get("/stocks/:symbol", getStocks);
 
 export default router;
