@@ -160,3 +160,34 @@ I can also nicely display the other stock info in the data model with (i) indica
 
 ------
 
+7.  @Intraday_Market_Data/api/src/services/services.ts:22-23 what is the relatioship between a trading period and a candle? dont we still have to group the candles by day within the tradingPeriods?
+
+I got confused in the process of writing the logic so I needed a clarification as to how the two loops need to constructed as the relate to each other. 
+
+I learned that each trading period represents a trading day.
+```bash
+tradingPeriods[0][0] = { start: 1784727000, end: 1784750400 }  // Day 1: 9:30am–4:00pm
+tradingPeriods[1][0] = { start: 1784813400, end: 1784836800 }  // Day 2: 9:30am–4:00pm
+```
+
+and there can be multiple timestamps per day. Each timestamp represents a candle.
+
+```bash
+timestamps = [
+  1784727000,  // Day 1, candle 1  (9:30am)
+  1784727900,  // Day 1, candle 2  (9:45am)
+  ...
+  1784749500,  // Day 1, candle 26 (3:45pm)
+  1784813400,  // Day 2, candle 1  (9:30am) ← big jump overnight
+  ...
+]
+```
+
+I needed to make it so instead each day, `DailyDay` has a subset of candles for that day. 
+And the dayOpen.. need to over the candls of that day, not all the candles.
+
+8. could we optomize this loop. explain different ways @Intraday_Market_Data/api/src/services/services.ts:26-30 
+
+I wanted to see how to optomize the double loop because the inner loop would iterate through all of the timestamps for each period.
+
+I found that a two pointer solution is the most efficient. A prepartition is also the same complexity.

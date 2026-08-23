@@ -87,6 +87,7 @@ export interface Candle {
 }
 
 export interface DailyData {
+    date: string;
     candles: Candle[];
     dayOpen: number;
     dayClose: number;
