@@ -74,3 +74,59 @@ export interface ChartData {
 export interface StockData {
     chart: ChartData;
 }
+
+/** Stock Data For the UI */
+
+export interface Candle {
+    open: number;
+    high: number;
+    low: number;
+    close: number;
+    volume: number;
+    timestamp: number;
+}
+
+export interface DailyData {
+    candles: Candle[];
+    dayOpen: number;
+    dayClose: number;
+    dayHigh: number;
+    dayLow: number;
+    dayVolume: number;
+    dayReturnPercentage: number;
+}
+
+export interface MetaData {
+    currency: string;
+    symbol: string;
+    exchangeName: string;
+    fullExchangeName: string;
+    instrumentType: string;
+    firstTradeDate: number;
+    regularMarketTime: number;
+    hasPrePostMarketData: boolean;
+    gmtoffset: number;
+    timezone: string;
+    exchangeTimezoneName: string;
+    regularMarketPrice: number;
+    fiftyTwoWeekHigh: number;
+    fiftyTwoWeekLow: number;
+    regularMarketDayHigh: number;
+    regularMarketDayLow: number;
+    regularMarketVolume: number;
+    longName: string;
+    shortName: string;
+    chartPreviousClose: number;
+    previousClose: number;
+    scale: number;
+    priceHint: number;
+    dataGranularity: string;
+    range: string;
+}
+
+export interface MontlyStockData {
+    currentData: CurrentTradingPeriod;
+    metaData: MetaData;
+    dailyData: DailyData[];
+}
+ 
