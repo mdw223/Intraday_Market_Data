@@ -4,6 +4,7 @@ import cors from "cors";
 import morgan from "morgan";
 import router from "./routes/routes";
 import { errorHandler } from "./middleware/errorHandler";
+import redisClient from "./clients/redisClient";
 const port = process.env.PORT || 3000;
 const app = express(); // create express application
 
@@ -22,7 +23,12 @@ app.use((_req, res) => res.status(404).json({ error: "Route not found" }));
 
 app.use(errorHandler);
 
-// start server
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-})
+(async () => {
+    try {
+        await redisClient.connect();
+    } catch (err) {
+        console.error("Failed to connect to Redis. Exiting.", err);
+        process.exit(1);
+    }
+    app.listen(port, () => console.log(`Server running on port ${port}`));
+})();

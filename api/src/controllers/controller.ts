@@ -1,6 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { getStockData } from "../services/services";
-import { fetchStockData } from "../clients/yahooFinanceClient";
+import { getMonthlyStockData } from "../services/services";
 
 const SYMBOL_REGEX = /^[A-Z0-9][A-Z0-9.\-]{0,9}$/;
 
@@ -14,9 +13,8 @@ export const getStocks = async (req: Request, res: Response, next: NextFunction)
     }
 
     try {
-        const rawStockData = await fetchStockData(symbol);
-        const processedStockData = getStockData(rawStockData);
-        return res.json(processedStockData);
+        const stockData = await getMonthlyStockData(symbol);
+        return res.json(stockData);
     } catch (error) {
         return next(error);
     }

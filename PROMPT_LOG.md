@@ -196,3 +196,9 @@ I found that a two pointer solution is the most efficient. A prepartition is als
 
 I want to make so if there is an error, the front end can differentiate errors instead of always being 500.
 I learned we can extend the Error class to add a status field.
+
+10. how to add cahcing so that a similar call to the same symbol doesnt have to be fetched from yahoo api? explain to me different ways to achive this if the application will be used by many different users but the there is no difference in the query (userid is not taken into consideration )
+
+I don't want to reach API limits if calling the same symbol many times in a short period of time (no database).
+
+In one of the recommendations it noted Redis, which I am familiar with so I implemented redis for shared cache.
