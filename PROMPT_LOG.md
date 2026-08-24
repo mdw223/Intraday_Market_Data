@@ -229,3 +229,5 @@ I learned that you need to add a volumne and then also add the watch command in 
 ----
 
 I looked at my old project to add the docker file for app: https://github.com/mdw223/Islamic-Calendar-Sync/blob/main/app/Dockerfile
+
+I referred to https://github.com/mdw223/Islamic-Calendar-Sync/blob/main/app/vite.config.js for adding hot reload to app in vite.
