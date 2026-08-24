@@ -217,3 +217,5 @@ The tsconfig.build.json overrides just three settings for the production build t
 "module": "CommonJS" — outputs require() calls instead of import, which Node resolves without extensions
 "moduleResolution": "Node" — classic Node resolution algorithm, compatible with CommonJS output
 "verbatimModuleSyntax": false — your dev config uses this to enforce import type syntax, but it's incompatible with CommonJS output (which must transform import → require)
+
+After testing it, I found that this didn't work so I reverted the changes then just skipped the Node resolution mode and just use tsx directly in the container the way dev works and it works now.

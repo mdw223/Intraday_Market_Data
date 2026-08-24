@@ -9,6 +9,4 @@ RUN npm install
 COPY tsconfig.json ./
 COPY src ./src
 
-RUN npm run build
-
-CMD ["npm", "start"]
+CMD ["npx", "tsx", "src/index.ts"]
