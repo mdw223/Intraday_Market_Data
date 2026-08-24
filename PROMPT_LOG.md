@@ -231,3 +231,19 @@ I learned that you need to add a volumne and then also add the watch command in 
 I looked at my old project to add the docker file for app: https://github.com/mdw223/Islamic-Calendar-Sync/blob/main/app/Dockerfile
 
 I referred to https://github.com/mdw223/Islamic-Calendar-Sync/blob/main/app/vite.config.js for adding hot reload to app in vite.
+
+----
+
+13. how to make a simple api client, should i make it like this https://github.com/mdw223/Islamic-Calendar-Sync/blob/main/app/src/util/ApiClient.js  where i have a custom file specifying the http methods https://github.com/mdw223/Islamic-Calendar-Sync/blob/main/app/src/util/HttpClient.js  or should i use a wrapper like axios https://axios.rest/pages/getting-started/first-steps  . compare them to me and suggest any other methods
+
+I asked this because I want to understand which technique is best for my app. Maybe using a wrapper might be more simple and easy since I don't need any customization.
+
+AI suggested I use custom code instead of a library because that adds unessessary dependencies. I thought about this.
+
+14. explain pros and cons for using the <T> meaning we specify the data type when we fetch
+
+Instead of duplicating the data model in the front end i could reuse the backend one. I wanted to know if I should use <T> as then it may assume that the data we fetch is always the object we specify we are getting but it may not be the case. 
+
+Some issues AI suggested are: its cast, not validation. You have to change types.ts if the backend response shape changes, and you would have to update your frontend code too. Also runtime validation would be missing. If we simply cast, then if it is not the same,  then my code will crash at runtime. 
+
+A solution for this is Zod, which AI proposed and which I heard of before. It validates data at runtime and will safely parse the data so you don't crash your code.
