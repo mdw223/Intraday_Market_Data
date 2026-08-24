@@ -219,3 +219,9 @@ The tsconfig.build.json overrides just three settings for the production build t
 "verbatimModuleSyntax": false — your dev config uses this to enforce import type syntax, but it's incompatible with CommonJS output (which must transform import → require)
 
 After testing it, I found that this didn't work so I reverted the changes then just skipped the Node resolution mode and just use tsx directly in the container the way dev works and it works now.
+
+12. how to make compose api reload on syntax chnages
+
+I wanted to make development easier by adding hot reload for docker.
+
+I learned that you need to add a volumne and then also add the watch command in the docker file.
