@@ -207,3 +207,13 @@ In one of the recommendations it noted Redis, which I am familiar with so I impl
 
 I referred to my old project for setting up docker: https://github.com/mdw223/Islamic-Calendar-Sync/blob/main/compose.yml
 
+----
+
+11. Why am i getting this issue in my compose? Cannot find module '/app/dist/routes/routes' imported from /app/dist/index.js
+
+I got stuck so I asked what was wrong with my build.
+I learned that dev tsconfig.json uses "moduleResolution": "Bundler" which is a Vite/webpack mode that allows bare extensionless imports like import ... from "./routes/routes". Bundlers resolve these at build time. Node.js ESM needs ./routes/routes.js.
+The tsconfig.build.json overrides just three settings for the production build to make it work.
+"module": "CommonJS" — outputs require() calls instead of import, which Node resolves without extensions
+"moduleResolution": "Node" — classic Node resolution algorithm, compatible with CommonJS output
+"verbatimModuleSyntax": false — your dev config uses this to enforce import type syntax, but it's incompatible with CommonJS output (which must transform import → require)
