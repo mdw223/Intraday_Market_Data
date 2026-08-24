@@ -225,3 +225,7 @@ After testing it, I found that this didn't work so I reverted the changes then j
 I wanted to make development easier by adding hot reload for docker.
 
 I learned that you need to add a volumne and then also add the watch command in the docker file.
+
+----
+
+I looked at my old project to add the docker file for app: https://github.com/mdw223/Islamic-Calendar-Sync/blob/main/app/Dockerfile
