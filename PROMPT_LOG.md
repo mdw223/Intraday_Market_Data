@@ -202,3 +202,8 @@ I learned we can extend the Error class to add a status field.
 I don't want to reach API limits if calling the same symbol many times in a short period of time (no database).
 
 In one of the recommendations it noted Redis, which I am familiar with so I implemented redis for shared cache.
+
+---
+
+I referred to my old project for setting up docker: https://github.com/mdw223/Islamic-Calendar-Sync/blob/main/compose.yml
+
