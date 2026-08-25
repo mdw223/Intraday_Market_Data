@@ -29,3 +29,5 @@ services:
     volumes:
       - ./app/src:/app/src
     restart: unless-stopped
+    env_file:
+      - ./app/.env
