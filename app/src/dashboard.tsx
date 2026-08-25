@@ -174,13 +174,25 @@ export default function Dashboard() {
       {/* Intraday chart */}
       {selectedDay && (
         <div>
-          <h2 style={{ marginBottom: '8px', fontSize: '14px', color: '#888', textTransform: 'uppercase', letterSpacing: '1px' }}>
-            Intraday — {selectedDay.date} &nbsp;
-            <span style={{ color: selectedDay.dayReturnPercentage >= 0 ? '#26a69a' : '#ef5350' }}>
-              {selectedDay.dayReturnPercentage >= 0 ? '+' : ''}{selectedDay.dayReturnPercentage.toFixed(2)}%
-            </span>
+          <h2 style={{ marginBottom: '12px', fontSize: '14px', color: '#888', textTransform: 'uppercase', letterSpacing: '1px' }}>
+            Intraday — {selectedDay.date}
           </h2>
-          <div ref={intradayChartRef} style={{ width: '100%' }} />
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+            <div ref={intradayChartRef} style={{ flex: 1 }} />
+            <div style={{ width: '160px', flexShrink: 0, background: '#1a1a2e', borderRadius: '6px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <Stat label="Open"   value={selectedDay.dayOpen.toFixed(2)} />
+              <Stat label="Close"  value={selectedDay.dayClose.toFixed(2)} />
+              <Stat label="High"   value={selectedDay.dayHigh.toFixed(2)} />
+              <Stat label="Low"    value={selectedDay.dayLow.toFixed(2)} />
+              <Stat label="Volume" value={formatVolume(selectedDay.dayVolume)} />
+              <div>
+                <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', letterSpacing: '1px' }}>Return</div>
+                <div style={{ fontSize: '15px', fontWeight: 600, color: selectedDay.dayReturnPercentage >= 0 ? '#26a69a' : '#ef5350' }}>
+                  {selectedDay.dayReturnPercentage >= 0 ? '+' : ''}{selectedDay.dayReturnPercentage.toFixed(2)}%
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
@@ -190,6 +202,13 @@ export default function Dashboard() {
       )}
     </div>
   );
+}
+
+function formatVolume(v: number): string {
+  if (v >= 1_000_000_000) return (v / 1_000_000_000).toFixed(2) + 'B';
+  if (v >= 1_000_000)     return (v / 1_000_000).toFixed(2) + 'M';
+  if (v >= 1_000)         return (v / 1_000).toFixed(1) + 'K';
+  return String(v);
 }
 
 function Stat({ label, value }: { label: string; value: string | undefined }) {
