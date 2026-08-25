@@ -2,7 +2,18 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api';
 
 // <T> is a cast, not validation
 async function handleResponse<T>(res: Response): Promise<T> {
-  if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+  if (!res.ok) {
+    // Try to read the JSON error body from the backend (e.g. { error: "Invalid symbol..." })
+    // Fall back to the HTTP status text if the body is not JSON or has no message
+    try {
+      const body = await res.json() as { error?: string; message?: string };
+      const message = body.error ?? body.message ?? `HTTP ${res.status}: ${res.statusText}`;
+      throw new Error(message);
+    } catch (parseErr) {
+      if (parseErr instanceof Error && !parseErr.message.startsWith('HTTP')) throw parseErr;
+      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+    }
+  }
   return res.json() as Promise<T>;
 }
 
