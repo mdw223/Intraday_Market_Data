@@ -1,0 +1,38 @@
+{
+    "compilerOptions": {
+        /* Modern JavaScript & Browser Compatibility: */
+        "target": "ESNext", // latest ES syntax
+
+        /* Module System Settings: */
+        "module": "ESNext", // latest ES modules
+        "sourceMap": true, // create source map files for debugging
+        "outDir": "dist", // output directory for compiled files
+        "rootDir": "src", // source directory for typescript files
+
+        /* Module Resolution Settings: */
+        "moduleResolution": "Bundler", // allows extentionless imports
+        "moduleDetection": "force", // force module detection
+
+        /* file consistency settings: */
+        "forceConsistentCasingInFileNames": true, // enforce consistent casing in file names
+        "esModuleInterop": true, // allow importing CommonJS modules with ES modules
+
+        /* for APIs and browser compatibility: */
+        "lib": ["ESNext", "DOM", "dom.iterable"], // latest ES APIs
+
+        /* Type checking settings: */
+        "allowJs": true, // allow JS files to be compiled
+        "checkJs": true, // enable JS type checking
+        "strict": true, // enable all strict type-checking options
+        "skipLibCheck": true, // skip type checking of declaration files
+        "noImplicitAny": true, // Prevents the use of `any` type unless explicitly defined
+        "resolveJsonModule": true, // allow importing JSON files
+        "noImplicitOverride": true, // Enforces explicit use of `override` for methods overriding base class methods
+        "noUncheckedIndexedAccess": true, // Enforces type safety for array/object accesses
+        "allowSyntheticDefaultImports": true, // Allows default imports for CommonJS modules
+        "verbatimModuleSyntax": true, // Keeps the `import`/`export` syntax as-is without transformation        
+    },
+    /* File inclusion and exclusion: */
+    "include": ["src"], // include all files in the src directory
+    "exclude": ["node_modules", "dist"], // exclude the node_modules and dist directories
+}

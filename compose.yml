@@ -1,0 +1,33 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: imd_redis
+    ports:
+      - 6379:6379
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: imd_api
+    env_file:
+      - ./api/.env
+    ports:
+      - 3000:3000
+    volumes:
+      - ./api/src:/app/src
+    depends_on:
+      - redis
+
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: imd_app
+    ports:
+      - 5173:5173
+    volumes:
+      - ./app/src:/app/src
+    restart: unless-stopped
+    env_file:
+      - ./app/.env

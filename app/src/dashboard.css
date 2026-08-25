@@ -1,0 +1,311 @@
+/* ─── Reset ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Tokens ────────────────────────────────────────────────────────────── */
+:root {
+  --bg:        #0d1117;
+  --surface:   #161b22;
+  --surface-2: #1c2128;
+  --border:    #30363d;
+  --text:      #e6edf3;
+  --muted:     #8b949e;
+  --teal:      #26a69a;
+  --red:       #ef5350;
+  --font:      'Courier New', Courier, monospace;
+}
+
+/* ─── Page ──────────────────────────────────────────────────────────────── */
+.db-page {
+  background: var(--bg);
+  min-height: 100vh;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  padding-top: 56px; /* height of navbar */
+}
+
+.db-content {
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ─── Navbar ────────────────────────────────────────────────────────────── */
+.db-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 100;
+}
+
+.db-navbar__brand {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--teal);
+  text-transform: uppercase;
+}
+
+.db-navbar__brand span {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-left: 10px;
+}
+
+.db-navbar__search {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ─── Input ─────────────────────────────────────────────────────────────── */
+.db-input {
+  padding: 8px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  width: 260px;
+  font-family: var(--font);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.db-input:focus {
+  border-color: var(--teal);
+}
+
+.db-input::placeholder {
+  color: var(--muted);
+}
+
+/* ─── Button ────────────────────────────────────────────────────────────── */
+.db-btn {
+  padding: 8px 18px;
+  background: var(--teal);
+  border: none;
+  color: #fff;
+  border-radius: 6px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: opacity 0.15s, background 0.15s;
+}
+
+.db-btn:hover:not(:disabled) {
+  background: #2bbbaf;
+}
+
+.db-btn:disabled {
+  cursor: not-allowed;
+}
+
+.db-btn--loading {
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* ─── Error ─────────────────────────────────────────────────────────────── */
+.db-error {
+  color: var(--red);
+  font-size: 13px;
+  padding: 10px 14px;
+  background: rgba(239, 83, 80, 0.08);
+  border: 1px solid rgba(239, 83, 80, 0.25);
+  border-radius: 6px;
+}
+
+/* ─── Stats panel ───────────────────────────────────────────────────────── */
+.db-stats {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+  background: var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.db-stat {
+  background: var(--surface);
+  padding: 12px 20px;
+  flex: 1;
+  min-width: 100px;
+}
+
+.db-stat--price {
+  background: var(--surface-2);
+}
+
+.db-stat__label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 4px;
+}
+
+.db-stat__value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.db-stat__value--large {
+  font-size: 20px;
+}
+
+.db-stat__value--bull { color: var(--teal); }
+.db-stat__value--bear { color: var(--red); }
+
+/* ─── Section ───────────────────────────────────────────────────────────── */
+.db-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.db-section__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.db-section__label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  white-space: nowrap;
+}
+
+.db-section__rule {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.db-section__badge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.db-section__badge--bull {
+  color: var(--teal);
+  background: rgba(38, 166, 154, 0.12);
+}
+
+.db-section__badge--bear {
+  color: var(--red);
+  background: rgba(239, 83, 80, 0.12);
+}
+
+/* ─── Intraday panel ────────────────────────────────────────────────────── */
+.db-intraday-panel {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.db-intraday-panel__chart {
+  flex: 1;
+  min-width: 0;
+}
+
+.db-intraday-stats {
+  width: 170px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.db-intraday-stats--bull {
+  border-top: 3px solid var(--teal);
+}
+
+.db-intraday-stats--bear {
+  border-top: 3px solid var(--red);
+}
+
+.db-intraday-stat {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.db-intraday-stat:last-child {
+  border-bottom: none;
+}
+
+.db-intraday-stat__label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 3px;
+}
+
+.db-intraday-stat__value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.db-intraday-stat__value--bull { color: var(--teal); }
+.db-intraday-stat__value--bear { color: var(--red); }
+
+/* ─── Empty state ───────────────────────────────────────────────────────── */
+.db-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 80px 0;
+  color: var(--muted);
+  text-align: center;
+}
+
+.db-empty__icon {
+  font-size: 36px;
+  opacity: 0.3;
+}
+
+.db-empty__text {
+  font-size: 15px;
+  opacity: 0.6;
+}
+
+.db-empty__hint {
+  font-size: 12px;
+  opacity: 0.4;
+}
