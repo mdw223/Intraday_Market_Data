@@ -247,3 +247,11 @@ Instead of duplicating the data model in the front end i could reuse the backend
 Some issues AI suggested are: its cast, not validation. You have to change types.ts if the backend response shape changes, and you would have to update your frontend code too. Also runtime validation would be missing. If we simply cast, then if it is not the same,  then my code will crash at runtime. 
 
 A solution for this is Zod, which AI proposed and which I heard of before. It validates data at runtime and will safely parse the data so you don't crash your code.
+
+15. What are some ways to make a dashboard in react to display my monthly yahoo data? /ask-me
+
+I asked this with the /ask-me skill so that it asks me more questions about what I am looking for and it will suggest me different options that I can choose from. I wanted to know different ways of implementing a chart that is for stocks since I am not knowledgable of stocks. 
+
+I learned that the standard trading view is a candlestick chart.
+I plan to have both a monthly view and a daily view to see the intraday candles with the daily summary numbers.
+As for libraries, I was suggested 3 but because I don't know what they look like I researched on Google what they look like to select the one with the nicest UI. ApexCharts and TradingView seem very professional. I decided to go with TradingView because I wanted to use my own code React instead of using a wrapper.
