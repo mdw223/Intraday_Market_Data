@@ -2,17 +2,22 @@ import { useRef, useEffect, useState } from "react";
 import { createChart, CandlestickSeries, HistogramSeries, type UTCTimestamp } from "lightweight-charts";
 import type { MonthlyStockData, DailyData } from "../../api/src/types/types";
 import { ApiClient } from "./apiClient";
+import "./dashboard.css";
 
 const CHART_OPTIONS = {
   autoSize: true,
-  height: 400,
+  height: 420,
   layout: {
-    background: { color: '#1a1a2e' },
-    textColor: '#d1d4dc',
+    background: { color: '#161b22' },
+    textColor: '#8b949e',
   },
   grid: {
-    vertLines: { color: '#2a2a3e' },
-    horzLines: { color: '#2a2a3e' },
+    vertLines: { color: '#21262d' },
+    horzLines: { color: '#21262d' },
+  },
+  crosshair: {
+    vertLine: { color: '#30363d' },
+    horzLine: { color: '#30363d' },
   },
 };
 
@@ -121,85 +126,141 @@ export default function Dashboard() {
     return () => chart.remove();
   }, [intradayChartData]);
 
+  const isBull = selectedDay ? selectedDay.dayReturnPercentage >= 0 : true;
+
   return (
-    <div style={{ padding: '24px', background: '#0f0f1a', minHeight: '100vh', color: '#d1d4dc', fontFamily: 'monospace' }}>
-
-      {/* Search bar */}
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
-        <input
-          type="text"
-          value={symbol}
-          onChange={e => setSymbol(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Enter ticker symbol (e.g. AAPL)"
-          style={{ padding: '10px 14px', background: '#1a1a2e', border: '1px solid #2a2a3e', color: '#d1d4dc', borderRadius: '4px', width: '280px', fontSize: '14px' }}
-        />
-        <button
-          onClick={handleSearch}
-          disabled={loading}
-          style={{ padding: '10px 20px', background: '#26a69a', border: 'none', color: '#fff', borderRadius: '4px', cursor: loading ? 'not-allowed' : 'pointer', fontSize: '14px', opacity: loading ? 0.6 : 1 }}
-        >
-          {loading ? 'Loading...' : 'Search'}
-        </button>
-      </div>
-
-      {/* Inline error */}
-      {error && (
-        <p style={{ color: '#ef5350', marginBottom: '16px', fontSize: '14px' }}>{error}</p>
-      )}
-
-      {/* Stats panel */}
-      {stockData && (
-        <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', marginBottom: '24px', padding: '16px', background: '#1a1a2e', borderRadius: '6px' }}>
-          <Stat label="Symbol" value={stockData.metaData.symbol} />
-          <Stat label="Name" value={stockData.metaData.longName} />
-          <Stat label="Exchange" value={stockData.metaData.fullExchangeName} />
-          <Stat label="Currency" value={stockData.metaData.currency} />
-          <Stat label="Price" value={`${stockData.metaData.regularMarketPrice.toFixed(2)}`} />
-          <Stat label="52W High" value={`${stockData.metaData.fiftyTwoWeekHigh.toFixed(2)}`} />
-          <Stat label="52W Low" value={`${stockData.metaData.fiftyTwoWeekLow.toFixed(2)}`} />
+    <>
+      {/* Navbar */}
+      <nav className="db-navbar">
+        <div className="db-navbar__brand">
+          IMD <span>Intraday Market Data</span>
         </div>
-      )}
-
-      {/* Monthly chart */}
-      {monthlyChartData.length > 0 && (
-        <div style={{ marginBottom: '32px' }}>
-          <h2 style={{ marginBottom: '8px', fontSize: '14px', color: '#888', textTransform: 'uppercase', letterSpacing: '1px' }}>
-            Monthly Overview — click a candle to drill into that day
-          </h2>
-          <div ref={monthlyChartRef} style={{ width: '100%' }} />
+        <div className="db-navbar__search">
+          <input
+            className="db-input"
+            type="text"
+            value={symbol}
+            onChange={e => setSymbol(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Ticker symbol — e.g. AAPL"
+          />
+          <button
+            className={`db-btn${loading ? ' db-btn--loading' : ''}`}
+            onClick={handleSearch}
+            disabled={loading}
+          >
+            {loading ? 'Loading…' : 'Search'}
+          </button>
         </div>
-      )}
+      </nav>
 
-      {/* Intraday chart */}
-      {selectedDay && (
-        <div>
-          <h2 style={{ marginBottom: '12px', fontSize: '14px', color: '#888', textTransform: 'uppercase', letterSpacing: '1px' }}>
-            Intraday — {selectedDay.date}
-          </h2>
-          <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-            <div ref={intradayChartRef} style={{ flex: 1 }} />
-            <div style={{ width: '160px', flexShrink: 0, background: '#1a1a2e', borderRadius: '6px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <Stat label="Open"   value={selectedDay.dayOpen.toFixed(2)} />
-              <Stat label="Close"  value={selectedDay.dayClose.toFixed(2)} />
-              <Stat label="High"   value={selectedDay.dayHigh.toFixed(2)} />
-              <Stat label="Low"    value={selectedDay.dayLow.toFixed(2)} />
-              <Stat label="Volume" value={formatVolume(selectedDay.dayVolume)} />
-              <div>
-                <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', letterSpacing: '1px' }}>Return</div>
-                <div style={{ fontSize: '15px', fontWeight: 600, color: selectedDay.dayReturnPercentage >= 0 ? '#26a69a' : '#ef5350' }}>
-                  {selectedDay.dayReturnPercentage >= 0 ? '+' : ''}{selectedDay.dayReturnPercentage.toFixed(2)}%
+      {/* Page body */}
+      <main className="db-page">
+        <div className="db-content">
+
+          {error && <p className="db-error">{error}</p>}
+
+          {/* Stock stats panel */}
+          {stockData && (
+            <div className="db-stats">
+              <div className="db-stat db-stat--price">
+                <div className="db-stat__label">Symbol</div>
+                <div className="db-stat__value db-stat__value--large">{stockData.metaData.symbol}</div>
+              </div>
+              <div className="db-stat" style={{ flex: 2 }}>
+                <div className="db-stat__label">Name</div>
+                <div className="db-stat__value">{stockData.metaData.longName}</div>
+              </div>
+              <div className="db-stat db-stat--price">
+                <div className="db-stat__label">Price</div>
+                <div className="db-stat__value db-stat__value--large">
+                  {stockData.metaData.regularMarketPrice.toFixed(2)}
+                </div>
+              </div>
+              <div className="db-stat">
+                <div className="db-stat__label">52W High</div>
+                <div className="db-stat__value db-stat__value--bull">
+                  {stockData.metaData.fiftyTwoWeekHigh.toFixed(2)}
+                </div>
+              </div>
+              <div className="db-stat">
+                <div className="db-stat__label">52W Low</div>
+                <div className="db-stat__value db-stat__value--bear">
+                  {stockData.metaData.fiftyTwoWeekLow.toFixed(2)}
+                </div>
+              </div>
+              <div className="db-stat">
+                <div className="db-stat__label">Exchange</div>
+                <div className="db-stat__value">{stockData.metaData.fullExchangeName}</div>
+              </div>
+              <div className="db-stat">
+                <div className="db-stat__label">Currency</div>
+                <div className="db-stat__value">{stockData.metaData.currency}</div>
+              </div>
+            </div>
+          )}
+
+          {/* Monthly chart */}
+          {monthlyChartData.length > 0 && (
+            <div className="db-section">
+              <div className="db-section__header">
+                <span className="db-section__label">Monthly Overview</span>
+                <div className="db-section__rule" />
+                <span className="db-section__label" style={{ opacity: 0.45 }}>click a candle to drill into that day</span>
+              </div>
+              <div ref={monthlyChartRef} style={{ width: '100%' }} />
+            </div>
+          )}
+
+          {/* Intraday chart */}
+          {selectedDay && (
+            <div className="db-section">
+              <div className="db-section__header">
+                <span className="db-section__label">Intraday — {selectedDay.date}</span>
+                <div className="db-section__rule" />
+                <span className={`db-section__badge ${isBull ? 'db-section__badge--bull' : 'db-section__badge--bear'}`}>
+                  {isBull ? '+' : ''}{selectedDay.dayReturnPercentage.toFixed(2)}%
+                </span>
+              </div>
+              <div className="db-intraday-panel">
+                <div className="db-intraday-panel__chart" ref={intradayChartRef} />
+                <div className={`db-intraday-stats ${isBull ? 'db-intraday-stats--bull' : 'db-intraday-stats--bear'}`}>
+                  <IntradayStat label="Open"   value={selectedDay.dayOpen.toFixed(2)} />
+                  <IntradayStat label="Close"  value={selectedDay.dayClose.toFixed(2)} />
+                  <IntradayStat label="High"   value={selectedDay.dayHigh.toFixed(2)} />
+                  <IntradayStat label="Low"    value={selectedDay.dayLow.toFixed(2)} />
+                  <IntradayStat label="Volume" value={formatVolume(selectedDay.dayVolume)} />
+                  <div className="db-intraday-stat">
+                    <div className="db-intraday-stat__label">Return</div>
+                    <div className={`db-intraday-stat__value ${isBull ? 'db-intraday-stat__value--bull' : 'db-intraday-stat__value--bear'}`}>
+                      {isBull ? '+' : ''}{selectedDay.dayReturnPercentage.toFixed(2)}%
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          )}
 
-      {/* Empty state */}
-      {!stockData && !loading && !error && (
-        <p style={{ color: '#555', fontSize: '14px' }}>Search for a ticker symbol to get started.</p>
-      )}
+          {/* Empty state */}
+          {!stockData && !loading && !error && (
+            <div className="db-empty">
+              <div className="db-empty__icon">📈</div>
+              <div className="db-empty__text">Search for a ticker to get started</div>
+              <div className="db-empty__hint">e.g. AAPL · TSLA · MSFT · NVDA</div>
+            </div>
+          )}
+
+        </div>
+      </main>
+    </>
+  );
+}
+
+function IntradayStat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="db-intraday-stat">
+      <div className="db-intraday-stat__label">{label}</div>
+      <div className="db-intraday-stat__value">{value}</div>
     </div>
   );
 }
@@ -209,13 +270,4 @@ function formatVolume(v: number): string {
   if (v >= 1_000_000)     return (v / 1_000_000).toFixed(2) + 'M';
   if (v >= 1_000)         return (v / 1_000).toFixed(1) + 'K';
   return String(v);
-}
-
-function Stat({ label, value }: { label: string; value: string | undefined }) {
-  return (
-    <div>
-      <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', letterSpacing: '1px' }}>{label}</div>
-      <div style={{ fontSize: '15px', fontWeight: 600 }}>{value ?? '—'}</div>
-    </div>
-  );
 }
